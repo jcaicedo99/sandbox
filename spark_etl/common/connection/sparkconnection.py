@@ -1,11 +1,13 @@
-import findspark
-findspark.init() 
+
 
 from pyspark.sql import functions as F, SparkSession
 from pyspark import SparkContext, SparkConf
 
 class sparkconnection(object):
 
+    def __init__(self):
+        pass
+    
     @staticmethod
     def __getSparkConf(spark_settings : dict) -> SparkConf:
         spark_cnf = SparkConf()
@@ -23,17 +25,5 @@ class sparkconnection(object):
         session = SparkSession(spark_context)
 
         return session
-
-
-scon = sparkconnection()
-
-ss = scon.get_session(master="local[*]",session_name="mytest",connection_settings={"spark.executor.cores": 2,"spark.executor.memory": "2g"})
-
-print(ss.range(1).collect())
-print(ss.version)
-
-
-ss.stop()
-
 
 
