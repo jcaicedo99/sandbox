@@ -1,17 +1,11 @@
 import findspark
 findspark.init()
 
-from sandbox.spark_etl.common.test_utils import test_utils
 from sandbox.spark_etl.common.connection.sparkconnection import sparkconnection
 
-class test_sparkconnection(object):
+class Test_sparkconnection(object):
     
-#    def __init__(self):
-#        pass
-#     #    test_utils.add_project_home()
-#        test_utils.setsparkenv()
-       
-       
+   @staticmethod 
    def test_local_sparkconnection():
 
        master="local[*]"
@@ -24,7 +18,3 @@ class test_sparkconnection(object):
           print(spark_ss.range(1).collect()[0])        
           assert spark_ss.range(1).collect()[0]["id"] == 0, "test_local_sparkconnection failed"
        
-       
-       
-       
-test_sparkconnection.test_local_sparkconnection()      
