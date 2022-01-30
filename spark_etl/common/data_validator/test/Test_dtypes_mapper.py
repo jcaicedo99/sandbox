@@ -5,7 +5,7 @@ from pyspark.sql import types
 from sandbox.spark_etl.common.data_validator.dtypes_mapper import dtypes_mapper
 
 
-class Test_sparkconnection(object):
+class Test_dtypes_mapper(object):
     
     @staticmethod
     def test_varchar_dtype():
