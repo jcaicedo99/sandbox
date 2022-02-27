@@ -1,5 +1,5 @@
 from typing import Tuple
-from pyspark.sql.types import StructType,StructField
+from pyspark.sql.types import StructType,StructField,StringType
 from sandbox.spark_etl.common.data_validator.dtypes_mapper_abstract import dtypes_mapper_abstract  
 from sandbox.spark_etl.common.data_validator.dtype_mapper_hive import  dtypes_mapper_hive  
 
@@ -46,9 +46,9 @@ class source_schema(object):
     def __add_extended_MD_to_fieldMD_list(self) -> list:
          return [self.__add_extended_column_MD(column_MD) for column_MD in self.__metadata_list_of_dict]
         
-    def get_struct_schema_with_sparkdtypes(self) -> StructType :
+    def get_struct_schema_with_sparkdtypes(self,overwrite_spark_dtype_to_string_dtype_flag=False) -> StructType :
         schema = StructType([StructField(name=fieldMD["column_name"]
-                              ,dataType=fieldMD["spark_dtype"]
+                              ,dataType=fieldMD["spark_dtype"] if not overwrite_spark_dtype_to_string_dtype_flag else StringType()
                               ,nullable=not fieldMD["required"]
                               ,metadata = {"source_datatype": fieldMD["data_type"]
                                            ,"datatype_precision":fieldMD["precision"]
@@ -59,6 +59,9 @@ class source_schema(object):
                               ) for fieldMD in self.__add_extended_MD_to_fieldMD_list()
                              ])
         return schema
+    
+    def get_struct_schema_with_sparkdtypes_all_strings(self):
+        return self.get_struct_schema_with_sparkdtypes(overwrite_spark_dtype_to_string_dtype_flag=True)
         
         
 # print(source_schema([]).is_valid_list([{"column_name":"col_name","required":True,"data_type":"integer","format":""}])            )
