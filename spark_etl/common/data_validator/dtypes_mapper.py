@@ -30,6 +30,15 @@ class dtypes_mapper(object):
         """decimal datatype is mapped in another method"""
         return spark_dtypes_mapper
     
+    
+    @staticmethod
+    def __is_datatype_with_precision(raw_dtype : str) -> bool:
+        return any (raw_dtype.startswith(c) for c in "varchar,varchar2,char,decimal".split(","))
+    
+    @staticmethod
+    def __is_decimaltype(input_raw_dtype : str) -> bool:
+        return input_raw_dtype.startswith("decimal")
+    
     @staticmethod
     def __cleanup_raw_dtype(raw_dtype : str) -> str:
         return raw_dtype.replace(" ","").lower()
